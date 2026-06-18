@@ -1,0 +1,20 @@
+name: Keep Supabase Projects Alive
+
+on:
+  schedule:
+    - cron: '0 9 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Sellovate Supabase
+        run: |
+          curl -s "${{ secrets.SUPABASE_SELLOVATE_URL }}/rest/v1/" \
+            -H "apikey: ${{ secrets.SUPABASE_SELLOVATE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SELLOVATE_ANON_KEY }}" \
+            && echo "Sellovate pinged!"
+
+      - name: Done
+        run: echo "Both projects kept alive!"
