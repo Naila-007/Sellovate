@@ -11,10 +11,9 @@ jobs:
     steps:
       - name: Ping Sellovate Supabase
         run: |
-          curl -s "${{ secrets.SUPABASE_SELLOVATE_URL }}/rest/v1/" \
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" \
+            "https://iclmzwfnvnsvpipnmssa.supabase.co/rest/v1/" \
             -H "apikey: ${{ secrets.SUPABASE_SELLOVATE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_SELLOVATE_ANON_KEY }}" \
-            && echo "Sellovate pinged!"
-
-      - name: Done
-        run: echo "Both projects kept alive!"
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SELLOVATE_ANON_KEY }}")
+          echo "Status: $STATUS"
+          echo "✅ Sellovate Supabase pinged!"
